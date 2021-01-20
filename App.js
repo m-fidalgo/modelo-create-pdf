@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Button, View, Dimensions } from "react-native";
+import { StyleSheet, Button, Platform, View, Dimensions } from "react-native";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
@@ -39,10 +39,11 @@ export default function App() {
       .replace(/[^a-zA-Z ]/g, "")
       .replace(" ", "_");
     console.log(subjectName);
+
     const pdf = `${resp.uri.slice(
       0,
       resp.uri.lastIndexOf("/") + 1
-    )}Resumo_${subjectName}`;
+    )}Resumo_${subjectName}${Platform.OS == "ios" ? "" : ".pdf"}`;
 
     await FileSystem.moveAsync({
       from: resp.uri,
